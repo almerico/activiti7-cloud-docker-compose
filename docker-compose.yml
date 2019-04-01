@@ -91,31 +91,7 @@ services:
       ACT_KEYCLOAK_URL: "http://192.168.1.9.nip.io/auth"
     restart: unless-stopped   
 
-#   # activiti-cloud-modeling-frontend:
-#   #   container_name: activiti-cloud-modeling-frontend     
-#   #   image: activiti/activiti-modeling-app:0.0.32
-#   #   ports:
-#   #     - 81:80
-#   #   environment:
-#   #   # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
-#   #     SPRING_JMX_ENABLED: "false"
-#   #     SPRING_RABBITMQ_HOST: "rabbitmq"
-#   #     ACT_KEYCLOAK_URL: "http://activiti-keycloak.192.168.1.9.nip.io/auth"
-#   #   restart: unless-stopped   
-
-#   # activiti-cloud-modeling-backend:
-#   #   container_name: activiti-cloud-modeling-backend   
-#   #   image: activiti/activiti-cloud-modeling:7.1.63
-#   #   # ports:
-#   #   #   - 80:8080
-#   #   environment:
-#   #   # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
-#   #     SPRING_JMX_ENABLED: "false"
-#   #     SPRING_RABBITMQ_HOST: "rabbitmq"
-#   #     ACT_KEYCLOAK_URL: "http://activiti-keycloak.192.168.1.9.nip.io/auth"
-#   #   restart: unless-stopped   
-
-# volumes:
-#   rabbitmq-data:
+volumes:
+  rabbitmq-data:
 
     
