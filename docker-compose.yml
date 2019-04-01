@@ -89,7 +89,34 @@ services:
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://192.168.1.9.nip.io/auth"
-    restart: unless-stopped   
+    restart: unless-stopped
+  
+  activiti-modeling-app:
+    container_name: activiti-modeling-app
+    image: activiti/activiti-modeling-app:0.0.35
+    ports:
+      - 8085:80
+    environment:
+      # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
+      APP_CONFIG_OAUTH2_HOST: "http://192.168.1.9.nip.io/auth/realms/activiti"
+      APP_CONFIG_OAUTH2_CLIENTID: "activiti"
+      APP_CONFIG_BPM_HOST: "http://192.168.1.9.nip.io"
+      BASE_PATH:                                     /activiti-cloud-modeling/
+      APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI:  /activiti-cloud-modeling/assets/silent-refresh.html
+      APP_CONFIG_OAUTH2_REDIRECT_LOGIN:              /activiti-cloud-modeling
+      APP_CONFIG_OAUTH2_REDIRECT_LOGOUT:             /activiti-cloud-modeling
+      API_PATH_PREFIX:                               activiti-cloud-modeling-backend
+    restart: unless-stopped
+
+  activiti-cloud-modeling-backend:
+    container_name: activiti-cloud-modeling-backend
+    image: activiti/activiti-cloud-modeling:7.1.69
+    environment:
+      JAVA_OPTS:                    -Xmx1024m -Xms512m -XX:+UnlockExperimentalVMOptions   -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+      SPRING_APPLICATION_NAME:      activiti-cloud-modeling-backend
+      SERVER_PORT:                  8080
+      ACT_KEYCLOAK_URL:             http://192.168.1.9.nip.io/auth
+      ACTIVITI_CLOUD_MODELING_URL:  localhost:8080
 
 volumes:
   rabbitmq-data:
