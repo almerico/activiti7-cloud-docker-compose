@@ -45,10 +45,11 @@ Then
 ```
 git clone https://github.com/Activiti/activiti-cloud-examples
 ```
-Then add to Postman _Activiti v7 REST API.postman_collection.json_
-Then at the top right choose manage environment then use your own ip in _current value_ tab. Then use _activiti_ as default environment. 
-To start work execute _getKeycloakToken hruser_ in postman keycloak folder.
-Then run startProcess in rb-my-app postman folder.
+Then add to Postman _Activiti v7 REST API.postman_collection.json_ <br>
+Then at the top right choose manage environment then use your own ip in _current value_ tab. <br> 
+Then use _activiti_ as default environment. <br>
+To start work execute _getKeycloakToken hruser_ in postman keycloak folder. <br>
+Then run startProcess in rb-my-app postman folder. <br>
 
 
 
