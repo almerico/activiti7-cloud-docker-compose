@@ -13,8 +13,6 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-    #image: introproventures/activiti-rabbitmq:3.7-alpine
-    #image: rabbitmq:3.7-alpine
     image: activiti/rabbitmq-stomp:7.0.0.RC1
     ports:
       - 5672:5672
@@ -28,7 +26,10 @@ services:
     image: activiti/activiti-keycloak
     ports:
       - 8180:8180
+    volumes:
+      - ./activiti-realm.json:/opt/jboss/keycloak/activiti-realm.json
     restart: unless-stopped
+
   example-runtime-bundle:
     container_name: example-runtime-bundle
     image: activiti/example-runtime-bundle:${VERSION}
@@ -38,6 +39,7 @@ services:
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
       SPRING_RABBITMQ_HOST: "rabbitmq"
     restart: unless-stopped
+
   example-cloud-connector:
     container_name: example-cloud-connector
     image: activiti/example-cloud-connector:${VERSION}
