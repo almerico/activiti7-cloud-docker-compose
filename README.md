@@ -1,4 +1,4 @@
-# activiti7-cloud-docker-compose
+#  Easy way to run activiti7 with docker compose 
 
 ### Prerequisite:
 Change DOCKER_IP to your ip in .env
