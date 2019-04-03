@@ -40,12 +40,12 @@ http://192.168.1.9.nip.io/activiti-cloud-modeling
 You will be redirected to keycloak where you have to use credentials *modeler/password* 
 
 ### Start process 
-If there is no Postman have to download Postman https://www.getpostman.com/downloads/
+If there is no Postman intalled please download Postman https://www.getpostman.com/downloads/
 Then 
 ```
 git clone https://github.com/Activiti/activiti-cloud-examples
 ```
-Then add to Postman _Activiti v7 REST API.postman_collection.json_ <br>
+Then add to Postman collection _Activiti v7 REST API.postman_collection.json_ <br>
 Then at the top right choose manage environment then use your own ip in _current value_ tab. <br> 
 Then use _activiti_ as default environment. <br>
 To start work execute _getKeycloakToken hruser_ in postman keycloak folder. <br>
