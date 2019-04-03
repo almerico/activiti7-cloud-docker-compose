@@ -1,9 +1,9 @@
 # activiti7-cloud-docker-compose
 
-###Prerequisite:
+##Prerequisite:
 Change DOCKER_IP to your ip in .env
 
-###Start options
+##Start options
 For starting whole system
 ```
 make all
@@ -28,7 +28,7 @@ Other available actions
 make help
 ```
 
-###Modeller 
+##Modeller 
 To access modeler please use url 
 http://<<yourgateway>>/activiti-cloud-modeling
 For example  
