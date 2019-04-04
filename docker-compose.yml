@@ -9,7 +9,15 @@ services:
     ports:
       - 80:80   
       - 443:443
-    restart: unless-stopped  
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+      - example-runtime-bundle
+      - example-cloud-connector
+      - activiti-cloud-query
+      - activiti-cloud-audit
+      - activiti-cloud-notifications-graphql
+      - activiti-cloud-modeling
 
   rabbitmq:
     container_name: rabbitmq
@@ -39,6 +47,9 @@ services:
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
       SPRING_RABBITMQ_HOST: "rabbitmq"
     restart: unless-stopped
+    depends_on:
+      - keycloak
+      - rabbitmq 
 
   example-cloud-connector:
     container_name: example-cloud-connector
@@ -49,6 +60,9 @@ services:
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
     restart: unless-stopped
+    depends_on:
+      - keycloak
+      - rabbitmq
 
   activiti-cloud-query:
     container_name: activiti-cloud-query
@@ -58,7 +72,10 @@ services:
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
-    restart: unless-stopped      
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+      - rabbitmq      
   
   activiti-cloud-audit:
     container_name: activiti-cloud-audit
@@ -68,7 +85,10 @@ services:
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
-    restart: unless-stopped      
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+      - rabbitmq      
 
   activiti-cloud-notifications-graphql:  
     container_name: activiti-cloud-notifications-graphql
@@ -79,10 +99,14 @@ services:
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
     restart: unless-stopped
+    depends_on:
+      - keycloak
+      - rabbitmq
   
   activiti-cloud-modeling:
     container_name: activiti-cloud-modeling
     image: activiti/activiti-modeling-app:${VERSION}
+    #image: activiti/activiti-modeling-app:0.0.41
     environment:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       APP_CONFIG_OAUTH2_HOST: "http://${DOCKER_IP}.nip.io/auth/realms/${KEYCLOAK_REALM}"
@@ -98,6 +122,8 @@ services:
   activiti-cloud-modeling-backend:
     container_name: activiti-cloud-modeling-backend
     image: activiti/activiti-cloud-modeling:${VERSION}
+    #image: activiti/activiti-cloud-modeling:7.1.76
+
     ports:
       - 8888:8080
     environment:
