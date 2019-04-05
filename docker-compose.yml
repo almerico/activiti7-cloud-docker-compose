@@ -46,6 +46,7 @@ services:
       SPRING_JMX_ENABLED: "false"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
       SPRING_RABBITMQ_HOST: "rabbitmq"
+      SERVER_SERVLET_CONTEXT_PATH: /rb-my-app
     restart: unless-stopped
     depends_on:
       - keycloak
@@ -72,6 +73,7 @@ services:
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      SERVER_SERVLET_CONTEXT_PATH: /query
     restart: unless-stopped
     depends_on:
       - keycloak
@@ -85,6 +87,7 @@ services:
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      SERVER_SERVLET_CONTEXT_PATH: /audit
     restart: unless-stopped
     depends_on:
       - keycloak
@@ -134,6 +137,7 @@ services:
       ACT_KEYCLOAK_REALM:           ${KEYCLOAK_REALM}
       ACT_KEYCLOAK_RESOURCE:        ${KEYCLOAK_RESOURCE}
       ACTIVITI_CLOUD_MODELING_URL:  localhost:8080
+      SERVER_SERVLET_CONTEXT_PATH:  /activiti-cloud-modeling-backend 
 
 volumes:
   rabbitmq-data:
