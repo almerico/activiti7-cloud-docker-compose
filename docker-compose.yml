@@ -24,8 +24,6 @@ services:
   keycloak:
     container_name: keycloak
     image: activiti/activiti-keycloak
-    ports:
-      - 8180:8180
     volumes:
       - ./activiti-realm.json:/opt/jboss/keycloak/activiti-realm.json
     restart: unless-stopped
@@ -155,9 +153,6 @@ services:
     container_name: activiti-cloud-modeling-backend
     image: activiti/activiti-cloud-modeling:${VERSION}
     #image: activiti/activiti-cloud-modeling:7.1.76
-
-    ports:
-      - 8888:8080
     environment:
       JAVA_OPTS:                    -Xmx1024m -Xms512m -XX:+UnlockExperimentalVMOptions   -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
       SPRING_APPLICATION_NAME:      activiti-cloud-modeling-backend
