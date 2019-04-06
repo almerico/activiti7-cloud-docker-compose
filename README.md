@@ -31,11 +31,11 @@ make help
 ### Modeller 
 To access modeler please use url
 ```
-http://<<yourgateway>>/activiti-cloud-modeling
+http://$DOCKER_IP/activiti-cloud-modeling
 ```
 For example
 ```
-http://192.168.1.9.nip.io/activiti-cloud-modeling
+http://192.168.1.9/activiti-cloud-modeling
 ```
 You will be redirected to keycloak where you have to use credentials *modeler/password* 
 
