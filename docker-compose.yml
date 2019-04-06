@@ -10,14 +10,6 @@ services:
       - 80:80   
       - 443:443
     restart: unless-stopped
-    depends_on:
-      - keycloak
-      - example-runtime-bundle
-      - example-cloud-connector
-      - activiti-cloud-query
-      - activiti-cloud-audit
-      - activiti-cloud-notifications-graphql
-      - activiti-cloud-modeling
 
   rabbitmq:
     container_name: rabbitmq
@@ -37,6 +29,8 @@ services:
     volumes:
       - ./activiti-realm.json:/opt/jboss/keycloak/activiti-realm.json
     restart: unless-stopped
+    depends_on:
+      - nginx
 
   example-runtime-bundle:
     container_name: example-runtime-bundle
@@ -44,7 +38,7 @@ services:
     environment:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       SPRING_JMX_ENABLED: "false"
-      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}/auth"
       SPRING_RABBITMQ_HOST: "rabbitmq"
       SERVER_SERVLET_CONTEXT_PATH: /rb-my-app
       ACTIVITI_SECURITY_POLICIES_0_NAME: "HR Group restricted to SimpleProcess and ConnectorProcess"
@@ -59,6 +53,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq 
 
@@ -69,9 +64,10 @@ services:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
-      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}/auth"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq
 
@@ -82,7 +78,7 @@ services:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
-      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}/auth"
       SERVER_SERVLET_CONTEXT_PATH: /query
       ACTIVITI_SECURITY_POLICIES_0_NAME: "HR Group restricted to SimpleProcess and ConnectorProcess"
       ACTIVITI_SECURITY_POLICIES_0_GROUPS: "hr"
@@ -96,6 +92,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq      
   
@@ -106,7 +103,7 @@ services:
       # JA`VA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
-      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}/auth"
       SERVER_SERVLET_CONTEXT_PATH: /audit
       ACTIVITI_SECURITY_POLICIES_0_NAME: "HR Group restricted to SimpleProcess and ConnectorProcess"
       ACTIVITI_SECURITY_POLICIES_0_GROUPS: "hr"
@@ -120,6 +117,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq      
 
@@ -130,9 +128,10 @@ services:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
       SPRING_JMX_ENABLED: "false"
       SPRING_RABBITMQ_HOST: "rabbitmq"
-      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
+      ACT_KEYCLOAK_URL: "http://${DOCKER_IP}/auth"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq
   
@@ -142,9 +141,9 @@ services:
     #image: activiti/activiti-modeling-app:0.0.41
     environment:
       # JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -noverify"
-      APP_CONFIG_OAUTH2_HOST: "http://${DOCKER_IP}.nip.io/auth/realms/${KEYCLOAK_REALM}"
+      APP_CONFIG_OAUTH2_HOST: "http://${DOCKER_IP}/auth/realms/${KEYCLOAK_REALM}"
       APP_CONFIG_OAUTH2_CLIENTID: "${KEYCLOAK_REALM}"
-      API_URL: "http://${DOCKER_IP}.nip.io"
+      API_URL: "http://${DOCKER_IP}"
       BASE_PATH: /activiti-cloud-modeling/
       APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: /activiti-cloud-modeling/assets/silent-refresh.html
       APP_CONFIG_OAUTH2_REDIRECT_LOGIN: /activiti-cloud-modeling
@@ -163,7 +162,7 @@ services:
       JAVA_OPTS:                    -Xmx1024m -Xms512m -XX:+UnlockExperimentalVMOptions   -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
       SPRING_APPLICATION_NAME:      activiti-cloud-modeling-backend
       SERVER_PORT:                  8080
-      ACT_KEYCLOAK_URL:             http://${DOCKER_IP}.nip.io/auth
+      ACT_KEYCLOAK_URL:             http://${DOCKER_IP}/auth
       ACT_KEYCLOAK_REALM:           ${KEYCLOAK_REALM}
       ACT_KEYCLOAK_RESOURCE:        ${KEYCLOAK_RESOURCE}
       ACTIVITI_CLOUD_MODELING_URL:  localhost:8080
