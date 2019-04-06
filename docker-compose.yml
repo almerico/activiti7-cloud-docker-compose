@@ -10,14 +10,6 @@ services:
       - 80:80   
       - 443:443
     restart: unless-stopped
-    depends_on:
-      - keycloak
-      - example-runtime-bundle
-      - example-cloud-connector
-      - activiti-cloud-query
-      - activiti-cloud-audit
-      - activiti-cloud-notifications-graphql
-      - activiti-cloud-modeling
 
   rabbitmq:
     container_name: rabbitmq
@@ -37,6 +29,8 @@ services:
     volumes:
       - ./activiti-realm.json:/opt/jboss/keycloak/activiti-realm.json
     restart: unless-stopped
+    depends_on:
+      - nginx
 
   example-runtime-bundle:
     container_name: example-runtime-bundle
@@ -59,6 +53,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq 
 
@@ -72,6 +67,7 @@ services:
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq
 
@@ -96,6 +92,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq      
   
@@ -120,6 +117,7 @@ services:
       ACTIVITI_SECURITY_POLICIES_1_KEYS: "*"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq      
 
@@ -133,6 +131,7 @@ services:
       ACT_KEYCLOAK_URL: "http://${DOCKER_IP}.nip.io/auth"
     restart: unless-stopped
     depends_on:
+      - nginx
       - keycloak
       - rabbitmq
   
