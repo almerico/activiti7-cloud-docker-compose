@@ -2,7 +2,7 @@
 
 ### Prerequisite:
 Change DOCKER_IP to your ip in .env
-You need to have make installed.
+You need to have ``make`` installed.
 
 ### Start options
 For starting whole system
